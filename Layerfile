@@ -15,15 +15,8 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-c
 # copy the root (i.e., repository root) to /root in the runner
 COPY / /root
 
-# TODO: log in to docker hub
-# See https://layerci.com/docs/advanced-workflows#logging-in-to-docker to learn how to log in to docker
-
 RUN REPEATABLE docker-compose build --parallel
 RUN docker-compose up -d
 
-# BUTTON shows a button and pauses the pipeline until it is pressed.
-BUTTON Deploy this pipeline
+RUN docker-compose exec cypress bash /app/run_tests.sh
 
-RUN echo "For AWS the command might look like this:"
-RUN echo awscli deploy --template-file my-file.yaml
-RUN echo "Note that these commands only run if you click the button on the LayerCI dashboard."
